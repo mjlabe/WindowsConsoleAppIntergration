@@ -6,48 +6,34 @@
 </head>
 <body>
 
-
 {% load static %}
 
+<link rel="stylesheet" href="{% static 'w3.css' %}">
 
-  <form method="post" enctype="multipart/form-data">
+    <div class="w3-container w3-center">
+        <h1>FUCKING WEB APP</h1>
+    </div>
+
+
+  <form method="post" enctype="multipart/form-data" id="uploadForm">
     {% csrf_token %}
-    <p>File: <input type="file" name="myfiles"> </p>
-    <p>Directory: <input type="file" name="myfiles" webkitdirectory mozdirectory /></p>
-    <button type="submit">Upload</button>
+      <div class="w3-container w3-center">
+        <p class="w3-padding-16">SingleFile: <input type="file" name="myfiles" id="file" onclick="resetFolder()"> </p>
+        <p class="w3-margin-bottom">Directory: <input type="file" name="myfiles" id="folder" webkitdirectory mozdirectory onclick="resetFile()"/></p>
+        <div class="w3-padding-32">
+            <button type="submit" class="w3-button w3-round-medium w3-padding-16" style="background-color: #dddddd">Upload & Scan</button>
+        </div>
+      </div>
   </form>
 
     <script>
-        function traverseFileTree(item, path) {
-          path = path || "";
-          if (item.isFile) {
-            // Get file
-            item.file(function(file) {
-              console.log("File:", path + file.name);
-            });
-          } else if (item.isDirectory) {
-            // Get folder contents
-            var dirReader = item.createReader();
-            dirReader.readEntries(function(entries) {
-              for (var i=0; i<entries.length; i++) {
-                traverseFileTree(entries[i], path + item.name + "/");
-              }
-            });
-          }
+        function resetFile() {
+            document.getElementById("file").value = "";
         }
 
-        dropArea.addEventListener("drop", function(event) {
-          event.preventDefault();
-
-          var items = event.dataTransfer.items;
-          for (var i=0; i<items.length; i++) {
-            // webkitGetAsEntry is where the magic happens
-            var item = items[i].webkitGetAsEntry();
-            if (item) {
-              traverseFileTree(item);
-            }
-          }
-        }, false);
+        function resetFolder() {
+            document.getElementById("folder").value = "";
+        }
     </script>
 </body>
 </html>
