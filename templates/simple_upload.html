@@ -12,14 +12,42 @@
 
   <form method="post" enctype="multipart/form-data">
     {% csrf_token %}
-    <input type="file" name="myfile">
+    <p>File: <input type="file" name="myfiles"> </p>
+    <p>Directory: <input type="file" name="myfiles" webkitdirectory mozdirectory /></p>
     <button type="submit">Upload</button>
   </form>
 
-  {% if uploaded_file_url %}
-    <p>File uploaded at: <a href="{{ uploaded_file_url }}">{{ uploaded_file_url }}</a></p>
-  {% endif %}
+    <script>
+        function traverseFileTree(item, path) {
+          path = path || "";
+          if (item.isFile) {
+            // Get file
+            item.file(function(file) {
+              console.log("File:", path + file.name);
+            });
+          } else if (item.isDirectory) {
+            // Get folder contents
+            var dirReader = item.createReader();
+            dirReader.readEntries(function(entries) {
+              for (var i=0; i<entries.length; i++) {
+                traverseFileTree(entries[i], path + item.name + "/");
+              }
+            });
+          }
+        }
 
+        dropArea.addEventListener("drop", function(event) {
+          event.preventDefault();
 
+          var items = event.dataTransfer.items;
+          for (var i=0; i<items.length; i++) {
+            // webkitGetAsEntry is where the magic happens
+            var item = items[i].webkitGetAsEntry();
+            if (item) {
+              traverseFileTree(item);
+            }
+          }
+        }, false);
+    </script>
 </body>
 </html>
