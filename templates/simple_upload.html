@@ -10,9 +10,27 @@
 
 <link rel="stylesheet" href="{% static 'w3.css' %}">
 
-    <div class="w3-container w3-center">
-        <h1>FUCKING WEB APP</h1>
-    </div>
+<style>
+    .bigimg {
+        background-position: center;
+        background-size: 800px;
+        background-image: url({% static 'skeleton-at-ships-wheel-large.jpg' %});
+        min-height: 500px;
+        background-repeat: no-repeat;
+    }
+
+    .headerfont {
+        font-family: "Roboto", "Lucida Grande", Verdana, Arial, sans-serif;
+        font-weight: bolder;
+        text-shadow: 2px 2px 1px #3a3a3a;
+    }
+</style>
+
+    <header class="bigimg w3-display-container w3-grayscale-min">
+        <div class="w3-container w3-center" style="padding: 128px 16px">
+            <h1 class="w3-margin w3-jumbo w3-text-white headerfont">FUCKING WEB APP</h1>
+        </div>
+    </header>
 
 
   <form method="post" enctype="multipart/form-data" id="uploadForm">
